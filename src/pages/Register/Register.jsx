@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import { useAuthentication } from "../../hooks/useAuthentication";
 import styles from "./Register.module.css";
 import { useEffect, useState } from "react";
@@ -26,7 +27,7 @@ const Register = () => {
     }
 
     if (password !== confirmPassword) {
-      setError("As senhas precisam ser iguais.")
+      setError(toast.error("As senhas precisam ser iguais."))
       return;
     }
 
@@ -95,7 +96,6 @@ const Register = () => {
           <button className="btn" disabled>
             Aguarde...
           </button>)}
-        {error && <p className="error">{error}</p>}
       </form>
     </div>
   )
