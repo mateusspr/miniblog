@@ -2,6 +2,7 @@ import { db } from '../firebase/config'
 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 export const useAuthentication = () => {
     const [error, setErrors] = useState(null)
@@ -36,6 +37,10 @@ export const useAuthentication = () => {
 
             setLoading(false)
 
+            if (loading === false) {
+                toast.success('Seu cadastro foi realizado!');
+            }
+
             return user
 
         } catch (error) {
@@ -44,12 +49,12 @@ export const useAuthentication = () => {
 
             let systemErrorMessage
 
-            if (error.message.includes("Password")) {
-                systemErrorMessage = 'A senha precisa ter pelo menos 6 caracteres.'
+            if (error.message.includes("password")) {
+                toast.error('A senha precisa ter pelo menos 6 caracteres.')
             } else if (error.message.includes("email-already")) {
-                systemErrorMessage = 'E-mail já cadastrado!'
+                toast.error('E-mail já cadastrado!')
             } else {
-                systemErrorMessage = 'Ocorreu um erro no sistema, tente novamente mais tarde...'
+                toast.error('Ocorreu um erro no sistema, tente novamente mais tarde...')
             }
 
             setLoading(false)
